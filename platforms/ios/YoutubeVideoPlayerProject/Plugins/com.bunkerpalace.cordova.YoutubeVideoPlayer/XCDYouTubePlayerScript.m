@@ -6,7 +6,7 @@
 
 #import <JavaScriptCore/JavaScriptCore.h>
 
-#import "XCDYouTubeLogger+Private.h"
+
 
 @interface XCDYouTubePlayerScript ()
 @property (nonatomic, strong) JSContext *context;
