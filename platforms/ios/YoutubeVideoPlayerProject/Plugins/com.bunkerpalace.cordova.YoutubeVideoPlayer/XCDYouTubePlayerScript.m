@@ -66,7 +66,7 @@
 	}
 	else
 	{
-		XCDYouTubeLogWarning(@"Unexpected player script (no anonymous function found)");
+		NSLog(@"Unexpected player script (no anonymous function found)");
 	}
 	
 	NSRegularExpression *signatureRegularExpression = [NSRegularExpression regularExpressionWithPattern:@"[\"']signature[\"']\\s*,\\s*([^\\(]+)" options:NSRegularExpressionCaseInsensitive error:NULL];
@@ -85,7 +85,7 @@
 	}
 	
 	if (!_signatureFunction)
-		XCDYouTubeLogWarning(@"No signature function in player script");
+		NSLog(@"No signature function in player script");
 	
 	return self;
 }
