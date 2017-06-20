@@ -10,7 +10,7 @@
 #import "XCDYouTubeError.h"
 #import "XCDYouTubeVideoWebpage.h"
 #import "XCDYouTubePlayerScript.h"
-#import "XCDYouTubeLogger+Private.h"
+
 
 typedef NS_ENUM(NSUInteger, XCDYouTubeRequestType) {
 	XCDYouTubeRequestTypeGetVideoInfo = 1,
@@ -326,7 +326,7 @@ static NSError *YouTubeError(NSError *error, NSSet *regionsAllowed, NSString *la
 	
 	if (self.videoIdentifier.length != 11)
 	{
-		XCDYouTubeLogWarning(@"Video identifier length should be 11. [%@]", self.videoIdentifier);
+		NSLog(@"Video identifier length should be 11. [%@]", self.videoIdentifier);
 	}
 	
 	XCDYouTubeLogInfo(@"Starting video operation: %@", self);
