@@ -22,7 +22,8 @@
 	
 	_context = [JSContext new];
 	_context.exceptionHandler = ^(JSContext *context, JSValue *exception) {
-		XCDYouTubeLogWarning(@"JavaScript exception: %@", exception);
+		NSLog(@"JavaScript exception: %@", exception);
+		//XCDYouTubeLogWarning(@"JavaScript exception: %@", exception);
 	};
 	
 	NSDictionary *environment = @{
