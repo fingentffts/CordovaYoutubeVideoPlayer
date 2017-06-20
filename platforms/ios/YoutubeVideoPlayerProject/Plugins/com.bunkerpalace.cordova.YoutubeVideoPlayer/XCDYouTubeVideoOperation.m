@@ -10,7 +10,7 @@
 #import "XCDYouTubeError.h"
 #import "XCDYouTubeVideoWebpage.h"
 #import "XCDYouTubePlayerScript.h"
-
+//#import "XCDYouTubeLogger+Private.h"
 
 typedef NS_ENUM(NSUInteger, XCDYouTubeRequestType) {
 	XCDYouTubeRequestTypeGetVideoInfo = 1,
@@ -160,7 +160,7 @@ static NSError *YouTubeError(NSError *error, NSSet *regionsAllowed, NSString *la
 	NSString *responseString = CFBridgingRelease(CFStringCreateWithBytes(kCFAllocatorDefault, data.bytes, (CFIndex)data.length, encoding != kCFStringEncodingInvalidId ? encoding : kCFStringEncodingMacRoman, false)) ?: @"";
 	NSAssert(responseString.length > 0, @"Failed to decode response from %@ (response.textEncodingName = %@, data.length = %@)", response.URL, response.textEncodingName, @(data.length));
 	
-	XCDYouTubeLogVerbose(@"Response: %@\n%@", response, responseString);
+	NSLog(@"Response: %@\n%@", response, responseString);
 	
 	switch (requestType)
 	{
@@ -192,7 +192,7 @@ static NSError *YouTubeError(NSError *error, NSSet *regionsAllowed, NSString *la
 
 - (void) handleVideoInfoResponseWithInfo:(NSDictionary *)info response:(NSURLResponse *)response
 {
-	XCDYouTubeLogDebug(@"Handling video info response");
+	NSLog(@"Handling video info response");
 	
 	NSError *error = nil;
 	XCDYouTubeVideo *video = [[XCDYouTubeVideo alloc] initWithIdentifier:self.videoIdentifier info:info playerScript:self.playerScript response:response error:&error];
@@ -222,7 +222,7 @@ static NSError *YouTubeError(NSError *error, NSSet *regionsAllowed, NSString *la
 
 - (void) handleWebPageWithHTMLString:(NSString *)html
 {
-	XCDYouTubeLogDebug(@"Handling web page response");
+	NSLog(@"Handling web page response");
 	
 	self.webpage = [[XCDYouTubeVideoWebpage alloc] initWithHTMLString:html];
 	
@@ -246,7 +246,7 @@ static NSError *YouTubeError(NSError *error, NSSet *regionsAllowed, NSString *la
 
 - (void) handleEmbedWebPageWithHTMLString:(NSString *)html
 {
-	XCDYouTubeLogDebug(@"Handling embed web page response");
+	NSLog(@"Handling embed web page response");
 	
 	self.embedWebpage = [[XCDYouTubeVideoWebpage alloc] initWithHTMLString:html];
 	
@@ -262,7 +262,7 @@ static NSError *YouTubeError(NSError *error, NSSet *regionsAllowed, NSString *la
 
 - (void) handleJavaScriptPlayerWithScript:(NSString *)script
 {
-	XCDYouTubeLogDebug(@"Handling JavaScript player response");
+	NSLog(@"Handling JavaScript player response");
 	
 	self.playerScript = [[XCDYouTubePlayerScript alloc] initWithString:script];
 	
@@ -286,15 +286,15 @@ static NSError *YouTubeError(NSError *error, NSSet *regionsAllowed, NSString *la
 - (void) finishWithVideo:(XCDYouTubeVideo *)video
 {
 	self.video = video;
-	XCDYouTubeLogInfo(@"Video operation finished with success: %@", video);
-	XCDYouTubeLogDebug(@"%@", ^{ return video.debugDescription; }());
+	NSLog(@"Video operation finished with success: %@", video);
+	NSLog(@"%@", ^{ return video.debugDescription; }());
 	[self finish];
 }
 
 - (void) finishWithError
 {
 	self.error = self.youTubeError ? YouTubeError(self.youTubeError, self.webpage.regionsAllowed, self.languageIdentifier) : self.lastError;
-	XCDYouTubeLogError(@"Video operation finished with error: %@\nDomain: %@\nCode:   %@\nUser Info: %@", self.error.localizedDescription, self.error.domain, @(self.error.code), self.error.userInfo);
+	NSLog(@"Video operation finished with error: %@\nDomain: %@\nCode:   %@\nUser Info: %@", self.error.localizedDescription, self.error.domain, @(self.error.code), self.error.userInfo);
 	[self finish];
 }
 
@@ -329,7 +329,7 @@ static NSError *YouTubeError(NSError *error, NSSet *regionsAllowed, NSString *la
 		NSLog(@"Video identifier length should be 11. [%@]", self.videoIdentifier);
 	}
 	
-	XCDYouTubeLogInfo(@"Starting video operation: %@", self);
+	NSLog(@"Starting video operation: %@", self);
 	
 	self.isExecuting = YES;
 	
@@ -342,7 +342,7 @@ static NSError *YouTubeError(NSError *error, NSSet *regionsAllowed, NSString *la
 	if (self.isCancelled || self.isFinished)
 		return;
 	
-	XCDYouTubeLogInfo(@"Canceling video operation: %@", self);
+	NSLog(@"Canceling video operation: %@", self);
 	
 	[super cancel];
 	
